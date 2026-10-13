@@ -1,0 +1,14 @@
+2026-10-12T17:50:02Z INFO  checkout-api pod=checkout-7f9c rid=a91 POST /checkout 201 312ms
+2026-10-12T17:52:40Z INFO  checkout-api pod=checkout-2b1d rid=a92 POST /checkout 201 355ms
+2026-10-12T17:55:11Z INFO  checkout-api pod=checkout-7f9c rid=a93 POST /checkout 201 401ms
+2026-10-12T17:57:30Z WARN  checkout-api pod=checkout-5e2a rid=b07 db.acquire slow wait=1450ms pool=pagamentos
+2026-10-12T17:58:12Z WARN  checkout-api pod=checkout-7f9c rid=b11 db.acquire slow wait=2210ms pool=pagamentos
+2026-10-12T18:01:45Z ERROR checkout-api pod=checkout-2b1d rid=b38 PoolTimeout: could not acquire connection from pool 'pagamentos' within 3000ms
+2026-10-12T18:01:46Z ERROR checkout-api pod=checkout-2b1d rid=b38 POST /checkout 503 3012ms
+2026-10-12T18:03:20Z INFO  checkout-api pod=checkout-5e2a rid=b52 retry publish notificacao pedido=88123 attempt=2
+2026-10-12T18:05:09Z ERROR checkout-api pod=checkout-9a0c rid=c04 PoolTimeout: could not acquire connection from pool 'pagamentos' within 3000ms
+2026-10-12T18:05:10Z ERROR checkout-api pod=checkout-9a0c rid=c04 POST /checkout 503 3008ms
+2026-10-12T18:12:33Z WARN  checkout-api pod=checkout-7f9c rid=c77 db.acquire slow wait=2890ms pool=pagamentos
+2026-10-12T18:20:01Z INFO  checkout-api pod=checkout-7f9c rid=d02 retry publish notificacao pedido=88301 attempt=3
+2026-10-12T18:31:48Z ERROR checkout-api pod=checkout-5e2a rid=d90 PoolTimeout: could not acquire connection from pool 'pagamentos' within 3000ms
+2026-10-12T18:40:00Z INFO  checkout-api pod=checkout-2b1d healthcheck ok cpu=41% mem=58%

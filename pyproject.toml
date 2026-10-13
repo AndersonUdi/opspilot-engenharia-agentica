@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opspilot"
+version = "1.0.0"
+description = "Codebase de Referência — Engenharia Agêntica: do Zero ao Deploy (Skills & Go · Alura + FIAP)"
+readme = "README.md"
+requires-python = ">=3.11"
+# As versões exatas ficam em requirements.txt (a turma inteira roda a MESMA versão).
+
+[tool.setuptools.packages.find]
+include = ["opspilot*", "aulas*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q -m 'not live'"
+markers = ["live: chama a API da OpenAI (custa centavos; precisa de OPENAI_API_KEY)"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"

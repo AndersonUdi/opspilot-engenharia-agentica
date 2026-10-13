@@ -1,0 +1,18 @@
+# Segredos
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Estado gerado pelas aulas (cada aluno gera o seu)
+.checkpoints.sqlite*
+data/tickets/*.json
+workspace/notas/
+workspace/relatorios/*
+!workspace/relatorios/.gitkeep
+workspace/grafo_aula2.md

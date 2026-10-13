@@ -1,0 +1,40 @@
+{
+  "_sobre": "Snapshot FICTÍCIO de observabilidade da loja 'MercadoNimbus' em 2026-10-12 às 18:40 (pico de campanha). Usado pelas ferramentas do OpsPilot. Valores 'baseline' = média das últimas 4 semanas no mesmo horário.",
+  "checkout-api": {
+    "descricao": "API de finalização de compra (Python/FastAPI, 12 pods)",
+    "latencia_p95_ms": 4200,
+    "baseline_latencia_p95_ms": 380,
+    "taxa_erro_pct": 7.4,
+    "baseline_taxa_erro_pct": 0.3,
+    "cpu_pct": 41,
+    "requisicoes_por_seg": 950,
+    "dependencias": ["pagamentos-db", "auth-gateway", "notificacoes-worker"],
+    "ultimo_deploy": "v3.8.1 em 2026-10-12 14:10 (mudança só de layout de e-mail)"
+  },
+  "pagamentos-db": {
+    "descricao": "PostgreSQL 16 de pagamentos, acessado via pool de conexões",
+    "conexoes_ativas": 10,
+    "conexoes_max_pool": 10,
+    "baseline_conexoes_max_pool": 50,
+    "espera_por_conexao_p95_ms": 3100,
+    "cpu_pct": 23,
+    "queries_lentas_por_min": 2,
+    "ultimo_deploy": "config v2.14.0 em 2026-10-12 17:55 (refatoração de variáveis de ambiente do pool)"
+  },
+  "notificacoes-worker": {
+    "descricao": "Worker que consome a fila de e-mails/SMS de pedido",
+    "mensagens_pendentes": 1340,
+    "baseline_mensagens_pendentes": 120,
+    "taxa_erro_pct": 0.4,
+    "consumidores_ativos": 4,
+    "ultimo_deploy": "v1.22.0 em 2026-10-05 10:00"
+  },
+  "auth-gateway": {
+    "descricao": "Gateway de autenticação (OAuth2) na frente das APIs",
+    "latencia_p95_ms": 96,
+    "baseline_latencia_p95_ms": 90,
+    "taxa_erro_pct": 0.1,
+    "certificado_tls_expira_em_dias": 6,
+    "ultimo_deploy": "v5.3.0 em 2026-09-28 09:30"
+  }
+}

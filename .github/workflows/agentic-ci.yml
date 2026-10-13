@@ -1,0 +1,69 @@
+# Agentic CI/CD — o "gate de qualidade" do OpsPilot (Aula 4).
+#
+# Dois estágios, do mais barato ao mais caro:
+#   1. unit-tests  → testes offline (rotas do grafo, ferramentas, avaliador). Grátis, sempre roda.
+#   2. agentic-eval → roda o agente de verdade no golden dataset e REPROVA o PR
+#                     se a nota cair abaixo do limite. Só roda se houver chave.
+#
+# Secrets do repositório (Settings → Secrets and variables → Actions):
+#   OPENAI_API_KEY (obrigatório para o estágio 2), LANGFUSE_PUBLIC_KEY,
+#   LANGFUSE_SECRET_KEY, LANGFUSE_BASE_URL (opcionais: viram traces com tag "eval").
+name: agentic-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: Testes offline
+        run: python -m pytest
+
+  agentic-eval:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    # Só roda quando a chave existe (forks e repositórios sem secret pulam este job).
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+      LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+      LANGFUSE_BASE_URL: ${{ secrets.LANGFUSE_BASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: Verifica se há chave
+        id: chave
+        run: echo "tem=$([ -n "$OPENAI_API_KEY" ] && echo sim || echo nao)" >> "$GITHUB_OUTPUT"
+      # ┌─ LACUNA [A4-L6] O gate: reprovar o PR se a qualidade cair
+      # │  Dica: O script de avaliação sai com código 1 quando a nota fica abaixo de --limite — e qualquer passo que sai com código diferente de 0 reprova o job. Rode o módulo aulas.aula4.a4_02_avaliar com --limite 0.75, só se a chave existir.
+      # │  Copilot Chat: "Crie um step chamado "Avaliação + gate" que roda python -m aulas.aula4.a4_02_avaliar --limite 0.75 apenas quando steps.chave.outputs.tem == 'sim'"
+      # └─ Troque cada ___ abaixo. Gabarito: `make gabarito-aula AULA=4`
+      - name: Avaliação + gate
+        if: steps.chave.outputs.tem == 'sim'
+        run: python -m ___ --limite ___
+      - name: Publica o relatório da avaliação
+        if: always() && steps.chave.outputs.tem == 'sim'
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-avaliacao
+          path: workspace/relatorios/avaliacao.*
+      - name: Resumo no PR
+        if: always() && steps.chave.outputs.tem == 'sim'
+        run: cat workspace/relatorios/avaliacao.md >> "$GITHUB_STEP_SUMMARY" || true

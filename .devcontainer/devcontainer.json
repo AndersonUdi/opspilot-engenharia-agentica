@@ -1,0 +1,45 @@
+// Ambiente padronizado da turma — o mesmo para todo mundo, sem "na minha máquina funciona".
+// Documentação: https://containers.dev/implementors/json_reference/
+{
+  "name": "Engenharia Agêntica · OpsPilot",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
+
+  // 4 núcleos / 8 GB é o bastante (máquina padrão gratuita de 2 núcleos também funciona).
+  "hostRequirements": { "cpus": 2, "memory": "4gb" },
+
+  // Secrets do Codespaces que o ambiente espera. O GitHub pede para preenchê-los
+  // ao criar o Codespace (os opcionais podem ficar em branco).
+  "secrets": {
+    "OPENAI_API_KEY": { "description": "Chave da API da OpenAI (obrigatória em todas as aulas)." },
+    "LANGFUSE_PUBLIC_KEY": { "description": "Aula 4 · chave pública do projeto no Langfuse Cloud (pk-lf-...)." },
+    "LANGFUSE_SECRET_KEY": { "description": "Aula 4 · chave secreta do projeto no Langfuse Cloud (sk-lf-...)." },
+    "LANGFUSE_BASE_URL": { "description": "Aula 4 · https://us.cloud.langfuse.com ou https://cloud.langfuse.com" }
+  },
+
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  "customizations": {
+    "codespaces": {
+      // Abre o guia rápido assim que o Codespace sobe.
+      "openFiles": ["README.md"]
+    },
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "bierner.markdown-mermaid",
+        "ms-toolsai.jupyter"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.testing.pytestEnabled": true,
+        "editor.formatOnSave": true,
+        "[python]": { "editor.defaultFormatter": "charliermarsh.ruff" },
+        "files.exclude": { "**/__pycache__": true, "**/.pytest_cache": true }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+# ---------------------------------------------------------------------------
+# Engenharia Agêntica: do Zero ao Deploy — dependências da turma
+# Faixas de versão conferidas em out/2026. O devcontainer instala tudo sozinho.
+# Para "congelar" a turma: pip freeze > requirements.lock.txt e versione.
+# ---------------------------------------------------------------------------
+
+# Núcleo LangChain 1.x (create_agent, @tool, init_chat_model)
+langchain>=1.4,<2
+langchain-core>=1.6,<2
+langchain-openai>=1.1,<2          # provedor OpenAI para "openai:<modelo>"
+
+# Orquestração (Aula 2)
+langgraph>=1.2,<2
+langgraph-checkpoint-sqlite>=3.1,<4   # persistência entre execuções (SqliteSaver)
+
+# Deep Agent Harness (Aula 3) — github.com/langchain-ai/deepagents
+deepagents>=0.7.24,<0.8
+
+# Observabilidade (Aula 4) — SDK v4 (OpenTelemetry)
+langfuse>=4.17,<5
+
+# Utilitários
+python-dotenv>=1.0
+pydantic>=2.7
+
+# Qualidade
+pytest>=8
+ruff>=0.6
