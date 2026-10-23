@@ -25,3 +25,6 @@
 
 ## Lições aprendidas (o agente acrescenta abaixo, 1 linha por lição)
 - Fila de notificações crescendo costuma ser efeito colateral de retries da API produtora.
+- Mudanças pequenas de configuração em pool de conexões podem causar impacto sistêmico imediato mesmo com CPU normal.
+- Reduzir o pool de conexões via variável de ambiente sem preservar o limite máximo pode transformar uma mudança de infra em indisponibilidade de checkout.
+- Deploy de configuração em dependência crítica pode causar 503 no checkout mesmo quando o serviço principal teve deploy anterior sem correlação causal.
